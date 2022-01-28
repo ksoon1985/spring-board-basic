@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context" 
+	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd  
+						http://www.springframework.org/schema/context  
+						http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+	
+	<!-- Root Context: defines shared resources visible to all other web components -->
+	
+	<!--추가 config파일 자동 로드 location="classpath:database.properties" -->
+    <context:property-placeholder location="/config/*.properties" /> 
+	
+	<!--추가 db connection info. -->
+	<bean id="dataSourceOR" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+	     <property name="driverClassName" value="${spring.dataSourceOR.driverClassName}"/> 
+	     <property name="url" value="${spring.dataSourceOR.url}"/>
+	     <property name="username" value="${spring.dataSourceOR.username}"/>   
+	     <property name="password" value="${spring.dataSourceOR.password}"/>
+	</bean>
+	<bean id="dataSource" class="net.sf.log4jdbc.Log4jdbcProxyDataSource">
+	  	<constructor-arg ref="dataSourceOR"/>
+	  		<property name="logFormatter">
+	     		<bean class="net.sf.log4jdbc.tools.Log4JdbcCustomFormatter">
+	       			<property name="loggingType" value="MULTI_LINE"/> 
+	       			<property name="sqlPrefix" value="[SQL]: "/>
+	     		</bean>
+	  		</property>
+	</bean>
+	
+	<!--추가 1.mybatis f/w db connect  2. sql file location setting-->
+	<!-- mybatis-config.xml /WEB-INF/spring 에서 src/main/resources로 이동(알수없는 오류때문에 ) -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean" lazy-init="true">
+		 <property name="dataSource" ref="dataSource" />
+		 <property name="configLocation" value="classpath:mybatis-config.xml"/>
+		 <property name="mapperLocations" value="classpath*:**/mapper/*Mapper.xml" />
+  	</bean>
+  	<bean id="sqlsession" class="org.mybatis.spring.SqlSessionTemplate">
+  	  	<constructor-arg ref="sqlSessionFactory"/>
+  	</bean>
+  	
+  	
+	<!--추가 MultipartResolver setting --> 
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"> 
+		<property name="maxUploadSize" value="100000000" /> 
+		<property name="maxInMemorySize" value="100000000" /> 
+	</bean> 
+	
+</beans>
