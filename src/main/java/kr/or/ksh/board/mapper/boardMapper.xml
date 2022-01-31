@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="model2.board">
+
+ <select id="allCnt"  resultType="int">
+    select count(num) cnt from board
+</select>
+
+
+ <select id="getArticles" parameterType="hashmap" 
+                 resultType="bdto">
+    SELECT A.*                                                          
+	FROM (SELECT ROWNUM RR, RBOARD.*                               
+	        FROM  (SELECT NUM, WRITER, SUBJECT, EMAIL, CONTENT,    
+	                      PASSWD, REG_DATE, READCNT, REF, RE_STEP, 
+	                      RE_LEVEL, ATTACHNM,  FILENO, FILESIZE, ORGFILENM                      
+	                FROM BOARD                                     
+	                ORDER BY REF DESC, RE_STEP ASC) RBOARD) A
+	 
+	 <choose>
+	  <when test="num!=null and num!=0">
+	     WHERE NUM = #{num} 
+	  </when>
+	  <otherwise>
+		 <if test="start!=null and start!=0 "> 
+		  WHERE A.RR BETWEEN #{start} AND #{end}                                    
+		 </if> 
+	  </otherwise>              
+	 </choose>
+	                   
+ </select>
+ 
+ <update id="updateReadCont" parameterType="hashmap">
+	  UPDATE BOARD  SET 
+	       READCNT=READCNT+1 
+	  WHERE NUM=#{num}
+ </update>
+ 
+ 
+ <select id="newNum" resultType="int">
+  select nvl(max(num),0)+1 num from board
+ </select>
+ <insert id="boardWrite" parameterType="bdto" >
+     <selectKey keyProperty="fileNo" resultType="int" 
+                  order="BEFORE">
+	       select nvl(max(FILENO),0)+1 FILENO from board
+	 </selectKey>
+      <choose>
+       <when test="fileSize!=0">
+        INSERT INTO 
+ 		 BOARD(NUM,WRITER,
+ 		       SUBJECT,EMAIL,
+ 		       CONTENT, PASSWD, 
+ 		       REG_DATE,READCNT, 
+ 		       REF,RE_STEP, RE_LEVEL, 
+ 		       ATTACHNM, FILENO, 
+ 		       FILESIZE, ORGFILENM) 
+		 VALUES(#{num},#{writer},#{subject},#{email},
+		        #{content}, #{passwd}, sysdate, 0,
+		        #{ref}, #{re_step}, #{re_level}, 
+		        #{attachNm},#{fileNo}, 
+		        #{fileSize},#{orgFileNm}) 
+       </when>
+       <otherwise>
+     	 INSERT INTO 
+ 		 BOARD(NUM,WRITER,
+ 		       SUBJECT,EMAIL,
+ 		       CONTENT, PASSWD, 
+ 		       REG_DATE,READCNT, 
+ 		       REF,RE_STEP, RE_LEVEL) 
+		 VALUES(#{num},#{writer},#{subject},#{email},
+		        #{content}, #{passwd}, sysdate, 0,
+		        #{ref}, #{re_step}, #{re_level}) 
+       </otherwise>
+    </choose>
+ </insert>
+ <update id="updatePro" parameterType="bdto">
+	UPDATE BOARD SET  
+       SUBJECT  =  #{subject}
+      ,EMAIL    =  #{email}
+      ,CONTENT  =  #{content}
+      ,PASSWD   =  #{passwd} 
+      <if test="fileNo!=null and fileSize>0 and orgFileNm!=null" >
+      ,ATTACHNM =  #{attachNm}
+      ,FILENO   =  #{fileNo}
+      ,FILESIZE =  #{fileSize}
+      ,ORGFILENM = #{orgFileNm}
+      </if>
+    WHERE NUM = #{num} 
+ </update>
+ <delete id="deleteArticle" parameterType="int">
+    DELETE FROM BOARD WHERE NUM =#{num}
+ </delete>
+ 
+ 
+</mapper>
+

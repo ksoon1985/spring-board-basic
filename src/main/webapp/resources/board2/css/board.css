@@ -1,0 +1,41 @@
+table{
+	line-height:1;
+	margin:auto;
+	
+}
+table, th, td{
+	 border: 1px solid #D1C4E9;
+ }
+ table th, td{
+ padding: 10px;
+ height: 30px;
+ }
+.class01{
+	background: #E4F7BA;
+	margin:auto;
+	text-align:center;
+	width:80%
+	
+}
+
+
+.class02{
+	background: #FFFFDE;
+	margin:auto;
+	text-align:left;
+	width:80%;
+}
+
+.class-center{
+	margin-left: auto; margin-right: auto;"
+    text-align: center;
+}
+
+.class-left{
+	margin-left: auto; margin-right: auto;"
+    text-align: left;
+}
+.class-right{
+	margin-left: auto; margin-right: auto;"
+    text-align: right;
+}
