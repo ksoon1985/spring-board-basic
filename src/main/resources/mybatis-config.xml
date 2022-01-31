@@ -10,7 +10,7 @@
     <typeAliases>
          <typeAlias alias="hashMap" type="java.util.HashMap" />
          <typeAlias alias="map" type="java.util.Map" />
-<!--          <typeAlias alias="bdto" type="kr.or.sol.board.dto.BoardDTO" />
-         <typeAlias alias="pdto" type="kr.or.sol.board.dto.PageDTO" /> -->
+		 <typeAlias alias="bdto" type="kr.or.ksh.board.dto.BoardDTO" />
+         <typeAlias alias="pdto" type="kr.or.ksh.board.dto.PageDTO" />
     </typeAliases>	
 </configuration>
