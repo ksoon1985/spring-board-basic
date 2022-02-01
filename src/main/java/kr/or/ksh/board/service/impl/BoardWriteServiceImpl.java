@@ -21,7 +21,7 @@ public class BoardWriteServiceImpl implements BoardWriteService {
 	@Resource
 	BoardDAO  boardDao;
 	
-	@Resource(name="ServletUpload")
+	@Resource(name="fileUtils")
 	private ServletUpload fileUtils;
 	
 	//writFrom에 해당, DAO 필요 없음
