@@ -311,4 +311,17 @@ log 관련 설정
 
 ```
 
+## repository
+window > preference > maven > user setting  
 
+### repo-setting.xml
+```xml
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
+    
+	<localRepository>C:\Users\kwons\.m2\spring-board-basic-repository</localRepository>
+	<interactiveMode>true</interactiveMode>
+	<offline>false</offline>
+</settings>
+```
