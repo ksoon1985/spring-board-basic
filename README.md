@@ -23,10 +23,10 @@
   * resources - css,images,js
   * WEB-INF
     * spring
-      * root-context.xml : 
-      * appServlet - servlet-context.xml :
+      * root-context.xml 
+      * appServlet - servlet-context.xml 
     * views - jsp
-    * web.xml :
+    * web.xml 
     
 
 ## setting 
@@ -313,6 +313,7 @@ log 관련 설정
 
 ## repository
 window > preference > maven > user setting  
+셋팅후 maven > update project 하면 library들 해당 폴더에 다운됨  
 
 ### repo-setting.xml
 ```xml
@@ -325,3 +326,5 @@ window > preference > maven > user setting
 	<offline>false</offline>
 </settings>
 ```
+
+
