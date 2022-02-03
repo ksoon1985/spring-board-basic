@@ -1,6 +1,6 @@
 # spring-board-basic
 
-기존 jsp 게시판 프로젝트 -> spring 게시판 프로젝트로 
+기존 jsp 게시판 프로젝트 -> spring 게시판 프로젝트로 (maven)
 
 
 ## structure 
